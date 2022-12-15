@@ -18,8 +18,6 @@ export const Footer = () => {
     }
     return (
         <div>
-            <hr />
-            <br />
             <div className="mainbox">
 
 
@@ -75,6 +73,7 @@ export const Footer = () => {
 
 
             </div>
+            <div style={{textAlign:"center",color:"#8E8E8E",marginTop:"35px",marginBottom:"-25px"}}>When you follow our links to visit a brand or retailer’s website or make a purchase, ModeSens may earn a commission.</div>
             <br /><br />
             <div className="hrTag" ></div>
             <div className="contacticons">
