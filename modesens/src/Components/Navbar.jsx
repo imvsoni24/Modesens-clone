@@ -1,10 +1,88 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate,Link } from "react-router-dom";
 import "./Navbar.css";
+import Modal from 'react-modal';
+import { CloseIcon } from '@chakra-ui/icons';
+import {Checkbox} from "@chakra-ui/react"
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../Firebase";
 
+const customStyles = {
+  content: {
+    margin:0,
+    padding:0,
+    width:"1000px",
+    height:"650px",
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px"
+  },
+};
 
 const Navbar = () => {
     const navigate=useNavigate()
+    const [values,setValues] = useState({
+        email:"",
+        pass:""
+    })
+
+    const [disable,setDisable] = useState(false)
+    const handleSubmit=(e)=>{
+      e.preventDefault()
+      setDisable(true)
+      createUserWithEmailAndPassword(auth,values.email,values.pass).then((res)=>{
+        setDisable(false)
+        const user = res.user
+        navigate("/")
+        closeModal()
+      }).catch((err)=>{
+        setDisable(false)
+      })
+    }
+    const handleLogin=()=>{
+        setDisable(true)
+        signInWithEmailAndPassword(auth,values.email,values.pass).then((res)=>{
+          setDisable(false)
+          navigate("/")
+          closeModal2()
+        }).catch((err)=>{
+          setDisable(false)
+        })
+    }
+
+  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [modalIsOpen2, setIsOpen2] = React.useState(false);
+  function openModal() {
+    setIsOpen(true);
+  }
+  function openModal2() {
+    setIsOpen2(true);
+  }
+  useEffect(()=>{
+    openModal()
+  },[])
+
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+  function closeModal2() {
+    setIsOpen2(false);
+  }
+  const handle1=()=>{
+    openModal2()
+    closeModal()
+
+  }
+  const handle2=()=>{
+    openModal()
+    closeModal2()
+
+  }
     return (
         <div id="Navbar">
             <div id="logo">
@@ -119,12 +197,83 @@ const Navbar = () => {
                         alt=""
                     />
                 </div>
-                <div id="login" >
-                <img className="loginimage"
+                <div onClick={openModal}  id="login" >
+                <img  className="loginimage"
                         src="https://cdn.modesens.com/static/img/20200612account_b2.svg"
                         alt=""
                     /> 
                 </div>
+                <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <button style={{marginLeft:"955px",marginTop:"-1px"}} onClick={closeModal}>< CloseIcon w={5} h={8}/></button>
+         <div  style={{display:"flex"}}>
+            <div className="j"><img className="i" src="https://i.ibb.co/T82y0C4/Screenshot-312.png" alt="" /></div>
+            <div style={{width:"500px", textAlign:"center"}}>
+            <h1 style={{marginTop:"30px",textAlign:"center",fontSize:"20px"}}>Create an account</h1>
+            <p style={{marginTop:"20px",textAlign:"center"}}>Unleash your shopping power.</p><br />
+            <p  style={{marginTop:"0px",textAlign:"center"}}>Check ModeSens before you buy.</p>
+           <form onSubmit={handleSubmit} action="">
+           <input required onChange={event=>setValues(prev=>({...prev,email:event.target.value}))}  style={{marginTop:"40px",padding:"7px 40px",border: "1px solid"}} type="text" placeholder="Email" /><br />
+           <input required onChange={event=>setValues(prev=>({...prev,pass:event.target.value}))}   style={{marginTop:"20px",padding:"7px 40px",border: "1px solid"}} type="password" placeholder="Password" />
+            <Checkbox  style={{marginTop:"20px",fontSize:"5px"}}>Subscribe to personalized sale updates and offers</Checkbox>
+            
+            <input disabled={disable}  style={{marginTop:"20px",padding:"7px 100px",border: "1px solid",color:"white",backgroundColor:"black"}} type="Submit" name="" id="" value="SIGN UP" />
+           </form>
+            <p  style={{marginTop:"20px",marginBottom:"20px",textAlign:"center"}}>or</p>
+            <div style={{display:"flex",justifyContent:"center"}}>
+                <img style={{marginRight:"15px",marginBottom:"20px"}} src="https://modesens.com/static/img/login-icon/20210617google.svg" alt="" />
+                <img style={{marginRight:"15px",marginBottom:"20px"}} src="https://modesens.com/static/img/login-icon/20210617facebook.svg" alt="" />
+                <img style={{marginRight:"15px",marginBottom:"20px"}} src="https://modesens.com/static/img/login-icon/20210617apple.svg" alt="" />
+                <img style={{marginRight:"10px",marginBottom:"20px"}} src="https://modesens.com/static/img/login-icon/20210617wechat.svg" alt="" />
+            </div>
+            <button onClick={handle1}>Already have an account? Please sign in.</button>
+            <p style={{marginTop:"85px",textAlign:"center"}}>By creating an account, I agree to</p>
+            <p style={{marginTop:"20px",textAlign:"center"}}>the Terms Of Use and the Privacy Policy</p>
+
+
+
+
+            </div>
+         </div>
+
+        </Modal>
+        <Modal
+        isOpen={modalIsOpen2}
+        onRequestClose={closeModal2}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <button style={{marginLeft:"955px",marginTop:"-1px"}} onClick={closeModal2}>< CloseIcon w={5} h={8}/></button>
+         <div  style={{display:"flex"}}>
+            <div className="j"><img className="i" src="https://i.ibb.co/T82y0C4/Screenshot-312.png" alt="" /></div>
+            <div style={{width:"500px", textAlign:"center"}}>
+            <h1 style={{marginTop:"30px",textAlign:"center",fontSize:"20px"}}>Log in to your account</h1>
+            <p style={{marginTop:"20px",textAlign:"center"}}>Unleash your shopping power.</p><br />
+            <p  style={{marginTop:"0px",textAlign:"center"}}>Check ModeSens before you buy.</p>
+           <input required onChange={event=>setValues(prev=>({...prev,email:event.target.value}))}  style={{marginTop:"40px",padding:"7px 40px",border: "1px solid"}} type="text" placeholder="Email" /><br />
+           <input required onChange={event=>setValues(prev=>({...prev,pass:event.target.value}))}  style={{marginTop:"20px",padding:"7px 40px",border: "1px solid"}} type="text" placeholder="Password" />
+            <p  style={{marginTop:"20px",fontSize:"13px",textAlign:"center"}}>Forgot Password?</p>
+            <button disabled={disable} onClick={handleLogin}   style={{marginTop:"20px",padding:"7px 100px",border: "1px solid",color:"white",backgroundColor:"black"}}>LOG IN</button>
+            <p  style={{marginTop:"20px",marginBottom:"20px",textAlign:"center"}}>or</p>
+            <div style={{display:"flex",justifyContent:"center"}}>
+                <img style={{marginRight:"15px",marginBottom:"20px"}} src="https://modesens.com/static/img/login-icon/20210617google.svg" alt="" />
+                <img style={{marginRight:"15px",marginBottom:"20px"}} src="https://modesens.com/static/img/login-icon/20210617facebook.svg" alt="" />
+                <img style={{marginRight:"15px",marginBottom:"20px"}} src="https://modesens.com/static/img/login-icon/20210617apple.svg" alt="" />
+                <img style={{marginRight:"10px",marginBottom:"20px"}} src="https://modesens.com/static/img/login-icon/20210617wechat.svg" alt="" />
+            </div>
+            <button onClick={handle2}>Don't have an account? Please sign up.</button>
+
+
+
+
+            </div>
+         </div>
+
+        </Modal>
                 <div id="loginhide">
                     <h5>Earn Points</h5>
                     <h5>Signup to unlock all benefits</h5>

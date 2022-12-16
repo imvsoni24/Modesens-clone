@@ -7,6 +7,20 @@
   /* position: fixed; */
   /* position: absolute; */
 }
+.i{
+  height: 650px;
+  width: 500px;
+  margin-left: 5px;
+  margin-top: 9px;
+
+}
+.j{
+  height: 702px;
+  width: 500px;
+  background-color: black;
+   /* margin-left: -24px; */
+  margin-top: -85px;
+}
 #logo {
   width: 170px;
   height: 100px;

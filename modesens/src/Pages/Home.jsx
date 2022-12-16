@@ -7,9 +7,11 @@ import OfferSlider from '../Components/Slider/OfferSlider';
 import NewDealSlider from '../Components/Slider/NewDealSlider';
 import TrendingSlider from '../Components/Slider/TrendingSlider';
 
+
 const Home = () => {
   return (
     <div>
+      
       <ImageSlider/>
       <BrandSlider/>
       <NewDealSlider/>
