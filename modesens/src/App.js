@@ -1,6 +1,6 @@
 import Navbar from "./Components/Navbar"
 import {Footer} from "./Components/Footer";
-import Home from "./Pages/Home";
+import MainRoutes from "./Pages/mainRoutes"
 
 import './App.css';
 
@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App">
       <Navbar/>
-      <Home/>
+      <MainRoutes/>
       <Footer/>
     </div>
   );

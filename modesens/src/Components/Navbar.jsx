@@ -4,7 +4,7 @@ import "./Navbar.css";
 import Modal from 'react-modal';
 import { CloseIcon } from '@chakra-ui/icons';
 import {Checkbox} from "@chakra-ui/react"
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword,signOut } from "firebase/auth";
 import { auth } from "../Firebase";
 
 const customStyles = {
@@ -25,6 +25,7 @@ const customStyles = {
 
 const Navbar = () => {
     const navigate=useNavigate()
+    const user = auth.currentUser;
     const [values,setValues] = useState({
         email:"",
         pass:""
@@ -36,17 +37,29 @@ const Navbar = () => {
       setDisable(true)
       createUserWithEmailAndPassword(auth,values.email,values.pass).then((res)=>{
         setDisable(false)
-        const user = res.user
+        const userD = res.user
+        console.log(res)
         navigate("/")
         closeModal()
       }).catch((err)=>{
         setDisable(false)
       })
     }
+    const handleLogout = ()=>{
+signOut(auth).then(() => {
+  // Sign-out successful.
+  navigate("/")
+}).catch((err) => {
+  // An error happened.
+  console.log(err)
+});
+    }
     const handleLogin=()=>{
         setDisable(true)
         signInWithEmailAndPassword(auth,values.email,values.pass).then((res)=>{
           setDisable(false)
+          const userD = res.user.email
+         console.log(userD.email)
           navigate("/")
           closeModal2()
         }).catch((err)=>{
@@ -56,15 +69,20 @@ const Navbar = () => {
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [modalIsOpen2, setIsOpen2] = React.useState(false);
+  const [load,setLoad] = React.useState(false)
   function openModal() {
     setIsOpen(true);
   }
   function openModal2() {
     setIsOpen2(true);
   }
-  useEffect(()=>{
-    openModal()
-  },[])
+  
+    useEffect(()=>{
+        openModal()
+      },[]) 
+    
+  
+  
 
 
   function closeModal() {
@@ -84,8 +102,8 @@ const Navbar = () => {
 
   }
     return (
-        <div id="Navbar">
-            <div id="logo">
+        <div  id="Navbar">
+            <div onClick={()=>navigate("/")} id="logo">
 
                 <img
                     src="https://i.ibb.co/svxTCp9/download.jpg"
@@ -93,7 +111,7 @@ const Navbar = () => {
                 />
             </div>
             <div className="categories">
-                <div className="women" onClick={()=>navigate("/womens")}> WOMEN</div>
+                <div className="women" onClick={()=>navigate("/")}> WOMEN</div>
                 <div className="womenhide">
 
                     <h5>SHOP ALL</h5>
@@ -107,7 +125,14 @@ const Navbar = () => {
                     <h5>OCCASION</h5>
 
                 </div>
-                <div className="men" onClick={()=>navigate("/mens")}> MEN </div>
+                <div className="beauty" onClick={()=>navigate("/beauty")}> BEAUTY</div>
+                <div className="beautyhide">
+                    <h5>SHOP ALL</h5>
+                    <h5>WOMEN'S BEAUTY</h5>
+                    <h5>MEN'S GROOMING</h5>
+                    <h5>KID'S CARE</h5>
+                </div>
+                <div className="men"> MEN </div>
                 <div className="menhide">
 
                     <h5>SHOP ALL</h5>
@@ -121,15 +146,7 @@ const Navbar = () => {
                     <h5>PRE-OWNED</h5>
                     <h5>OCCASION</h5>
                 </div>
-
-                <div className="beauty" onClick={()=>navigate("/beauty")}> BEAUTY</div>
-                <div className="beautyhide">
-                    <h5>SHOP ALL</h5>
-                    <h5>WOMEN'S BEAUTY</h5>
-                    <h5>MEN'S GROOMING</h5>
-                    <h5>KID'S CARE</h5>
-                </div>
-                <div className="kids" onClick={()=>navigate("/kids")}> KIDS</div>
+                <div className="kids"> KIDS</div>
                 <div className="kidshide">
                     <h5>SHOP ALL</h5>
                     <h5>BABY GIRL</h5>
@@ -138,7 +155,7 @@ const Navbar = () => {
                     <h5>BOYS</h5>
                     <h5>SALE</h5>
                 </div>
-                <div className="home" onClick={()=>navigate("/")}> HOME</div>
+                <div className="home"> HOME</div>
                 <div className="homehide">
                     <div className="flex">
                         <div>
@@ -174,21 +191,21 @@ const Navbar = () => {
 
                 </div>
                
-                <div className="community" onClick={()=>navigate("/offers")} > COMMUNITY</div>
+                <div className="community"> COMMUNITY</div>
                 <div className="communityhide">
                     <h5>DISCOVER</h5>
                     <h5>MY CLOSET</h5>
                     <h5>EDITORIALS</h5>
                     <h5>INFLUENCER PROGRAM</h5>
                 </div>
-                <div className="whymodesens" onClick={()=>navigate("/why_modesens")}> WHY MODESENS</div>
-                <div style={{ color: "red" }} className="offers" onClick={()=>navigate('/offers')}> SALE</div>
+                <div className="whymodesens"> WHY MODESENS</div>
+                <div style={{ color: "red" }} className="offers"> SALE</div>
                 <div className="offershide">
                     <h5>COUPONS</h5>
                     <h5>WOMEN'S SALE</h5>
                     <h5>MEN'S SALE</h5>
                 </div>
-                <div style={{ color: "red" }} className="designer" onClick={()=>navigate("/design")}> GIFT SIDE</div>
+                <div style={{ color: "red" }} className="designer"> GIFT SIDE</div>
             </div>
             <div className="right_side ">
                 <div className="loginimage" onClick={()=>navigate("/cart")}>
@@ -197,11 +214,11 @@ const Navbar = () => {
                         alt=""
                     />
                 </div>
-                <div onClick={openModal}  id="login" >
-                <img  className="loginimage"
+              <div onClick={openModal}  id="login" >
+              {user? user.email:  <img  className="loginimage"
                         src="https://cdn.modesens.com/static/img/20200612account_b2.svg"
                         alt=""
-                    /> 
+                    /> }
                 </div>
                 <Modal
         isOpen={modalIsOpen}
@@ -290,7 +307,7 @@ const Navbar = () => {
                     <h5>Invite Friends</h5>
                     <h5>Settings</h5>
                     <hr></hr>
-                    <h5 className="inbtn">Login</h5>
+                    {user ? <h5 onClick={handleLogout} className="inbtn">Logout</h5>: <h5 onClick={openModal2} className="inbtn">Login</h5>}
                 </div>
                 <div className="loginimage">
                     <img

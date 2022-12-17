@@ -1,79 +1,71 @@
 import React from "react";
 import Slider from "react-slick";
-
+import styled, { css } from "styled-components";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 
 import "./slider.css";
-const newdeal = [
-   
+const Button = styled.button`
+  border: 1px solid black;
+  margin: 0 auto;
+  width: 85%;
+  position: absolute;
+  font-weight: bold;
+  top: 56%;
+  bottom: 34%;
+  display: none;
+  background: rgba(255, 255, 255, 0.6) none repeat scroll 0% 0% / auto
+    padding-box border-box;
+  z-index: 99;
+`;
+const Container = styled.div`
+  border: 1px solid #f5f5f5;
+  position: relative;
+  padding: 0 20px;
+  overflow: hidden;
+  height: 390px;
+  &:hover ${Button} {
+    display: block;
+  }
+`;
 
-    {
-        src: "https://cdn.modesens.com/availability/55784063?w=400",
-        title: "SAINT LAURENT",
-        sub: "Leather Biker Jacket In Black",
-        rate: "$2639 (30% OFF)  - $5490",
-        st: "Compare 11 stores"
-    },
-    {
-        src: "https://cdn.modesens.com/availability/53982490?w=400",
-        title: "DOLCE & GABBANA",
-        sub: "Dg Pop Leather Ankle Boots In Black",
-        rate: "$644 (43% OFF)  - $1295",
-        st: "Compare 9 stores"
-    },
-    {
-        src: "https://cdn.modesens.com/availability/45835347?w=400",
-        title: "GANNI",
-        sub: "Ganni Sky Captain Single-breasted Corduroy Jacket In Blu",
-        rate: "$190 (60% OFF)  - $272",
-        st: "Compare 5 stores"
-    },
-    {
-        src: "https://cdn.modesens.com/product/46762388_2?w=400",
-        title:  "BALMAIN",
-        sub: "Double-breasted Black Viscose Blazer",
+const SlideItem = styled.img`
+  height: 100%;
+  width: 90%;
+  background: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin: auto;
+`;
+const HeartDIv = styled.div`
+  position: absolute;
+  left: 88%;
+  bottom: 93%;
+`;
 
-        rate: "$1146 (41% OFF)  - $2808",
-        st: "Compare 13 stores"
-    },
-    {
-        src: "https://cdn.modesens.com/availability/58475510?w=400",
-        title: "MONCLER",
-        sub: "Moscova Faux Fur-trimmed Leather Ankle Boots In Black",
+const TextDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  text-align: center;
+  margin-top: -40px;
 
-        rate: "$406 (35% OFF)  - $904",
-        st: "Compare 12 stores"
-    },
-    {
-        src: "https://cdn.modesens.com/product/18412404_177?w=400",
-        title:  "GRENOBLE",
-        sub: "Ledi Hooded Color-block Quilted Shell Down Jacket In Multi-colored",
-
-        rate: "$632 (29% OFF)  - $1370",
-        st: "Compare 15 stores"
-    },
-    {
-        src: "https://cdn.modesens.com/availability/56317619?w=400",
-        title:   "MONCLER",
-        sub: "Black Carinne Lace-up Boots",
-
-        rate: "$512 (23% OFF)  - $825",
-        st: "Compare 5 stores"
-    },
-    {
-        src: "https://cdn.modesens.com/availability/53101621?w=400",
-        title:   "DOLCE & GABBANA",
-        sub: "Dg Pop Leather Ankle Boots In Black",
-
-        rate: "$644 (43% OFF)  - $1295",
-        st: "Compare 9 stores"
-    },
-   
-   
-    
-    ]
+  & span {
+    font-size: 12px;
+    color: gray;
+  }
+  & h6 {
+    font-size: 13px;
+    font-weight: bold;
+    margin: 0;
+  }
+`;
+const HeartImg = styled.img``;
 
 function NextArrow(props) {
   const { className, style, onClick } = props;
@@ -111,6 +103,17 @@ function PrevArrow(props) {
 }
 
 const TrendingSlider = () => {
+  const [data,setData] = React.useState([])
+  React.useEffect(()=>{
+    getData()
+   },[])
+   const getData=async()=>{
+    let res = await fetch(`http://localhost:3000/trending`)
+    res = await res.json()
+    setData(res)
+   }
+
+
   const settings = {
     infinite: true,
     speed: 800,
@@ -123,20 +126,73 @@ const TrendingSlider = () => {
     <div style={{ width: "72%", margin: "auto", marginTop: "50px" }}>
       <div style={{width:"20%",margin:"auto"}}><h1 style={{fontSize:"25px",fontWeight:"bold"}}>Trending Now</h1></div>
       <Slider {...settings}>
-        {newdeal.map((item)=>(
-            <div className="card4">
-            <img src={item.src}   alt=""
-             
-              width="100%"
-            
-            />
-            <div>
-              <h2 style={{fontSize:"15px",marginTop:"10px",fontWeight:"bold"}}>{item.title}</h2>
-              <h4 style={{fontSize:"15px",marginTop:"10px",fontSize:"13px",color:"#8E8E8E"}}>{item.sub}</h4>
-              <h3 style={{fontSize:"15px",marginTop:"10px",color:"red"}}>{item.rate}</h3>
-              <h3 style={{fontSize:"15px",marginTop:"10px",color:"#8E8E8E"}}>{item.st}</h3>
-            </div>
-          </div>
+        {data.map((e)=>(
+               <Container
+               >
+                   <HeartDIv>
+                     <HeartImg
+                       src="https://cdn.modesens.com/static/img/20210601heart.svg"
+                       alt=""
+                     />
+                   </HeartDIv>
+                   <div
+                     style={{
+                       display: "flex",
+                       border: "none",
+                       justifyContent: "center",
+                       padding: "20px 8px",
+                     }}
+                   >
+                     <div
+                       style={{
+                         width: "100%",
+                         height: "240px",
+                         overflow: "hidden",
+                       }}
+                     >
+                       <SlideItem src={e.src} />
+                     </div>
+                   </div>
+                   <div style={{ display: "flex", justifyContent: "center" }}>
+                     <Button>Quick View</Button>
+                   </div>
+                   <TextDiv>
+                     <h5
+                       style={{
+                         color: "black",
+                         fontSize: "17px",
+                         textAlign: "center",
+                         fontWeight: "bold",
+                         marginTop:"17px"
+                       }}
+                     >
+                       {e.title}
+                     </h5>
+                     <p
+                       style={{
+                         fontSize: "15px",
+                         textAlign: "center",
+                         color: "gray",
+                         marginTop:"5px",
+                         lineHeight:"normal"
+                       }}
+                     >
+                       {e.sub}
+                     </p>
+                     <h6
+                       style={{
+                         fontSize: "15px",
+                         color: "black",
+                         marginTop:"5px"
+                       }}
+                     >
+                       {e.rate}
+                     </h6>
+                     <span style={{ color: "gray",marginTop:"5px" }}>
+                       {Math.floor(Math.random() * (20 - 5 + 1)) + 5}-store
+                     </span>
+                   </TextDiv>
+               </Container>
         ))}
        
        
