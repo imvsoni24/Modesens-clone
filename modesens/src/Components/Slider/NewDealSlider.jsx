@@ -1,78 +1,71 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Slider from "react-slick";
-
+import styled, { css } from "styled-components";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 
 import "./slider.css";
-const newdeal = [
-   
+const Button = styled.button`
+  border: 1px solid black;
+  margin: 0 auto;
+  width: 85%;
+  position: absolute;
+  font-weight: bold;
+  top: 56%;
+  bottom: 34%;
+  display: none;
+  background: rgba(255, 255, 255, 0.6) none repeat scroll 0% 0% / auto
+    padding-box border-box;
+  z-index: 99;
+`;
+const Container = styled.div`
+  border: 1px solid #f5f5f5;
+  position: relative;
+  padding: 0 20px;
+  overflow: hidden;
+  height: 370px;
+  &:hover ${Button} {
+    display: block;
+  }
+`;
 
-    {
-        src: "https://cdn.modesens.com/availability/53902355?w=400",
-        title: "MONCLER GRENOBLE",
-        sub: "Ledi Hooded Color-block",
-        rate: "$632 (29% OFF)  - $1370",
-        st: "Compare 15 stores"
-    },
-   
-    {
-        src: "https://cdn.modesens.com/availability/56830338?w=400",
-        title:"MONCLER",
-sub:"Moscova Faux Fur-trimmed",
+const SlideItem = styled.img`
+  height: 100%;
+  width: 90%;
+  background: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin: auto;
+`;
+const HeartDIv = styled.div`
+  position: absolute;
+  left: 88%;
+  bottom: 93%;
+`;
 
-rate:"$406 (35% OFF)  - $904",
-st:"Compare 12 stores"
-    },
+const TextDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  text-align: center;
+  margin-top: -40px;
 
-    {
-        src: "https://cdn.modesens.com/product/10881690_51?w=400",
-        title:"BALMAIN",
-sub:"Double-breasted Black Viscose",
-
-rate:"$1146 (41% OFF)  - $2808",
-st:"Compare 13 stores"
-    },
-
-    {
-        src: "https://cdn.modesens.com/product/3469145_255?w=400",
-        title: "SAINT LAURENT",
-        sub: "Leather Biker Jacket In Black",
-        rate: "$2639 (30% OFF)  - $5490",
-        st: "Compare 11 stores"
-    },
-    {
-        src: "https://cdn.modesens.com/availability/58680698?w=400",
-        title: "VALENTINO",
-        sub: "Long Wool Wrap Coat With",
-        rate: "$2743 (32% OFF)  - $6900",
-        st: "Compare 15 stores"
-    },
-    {
-        src: "https://cdn.modesens.com/availability/56340710?w=400",
-        title: "KHAITE",
-        sub: "Fullman Cropped Padded",
-        rate: "$740 (50% OFF)  - $1480",
-        st: "Compare 13 stores"
-    },
-    {
-        src: "https://cdn.modesens.com/availability/54375340?w=400",
-        title: "RAG & BONE",
-        sub: "Icon Andrea Zip-front Leather",
-        rate: "$679 (38% OFF)  - $1095",
-        st: "Compare 6 stores"
-    },
-    {
-        src: "https://cdn.modesens.com/product/22342103_107?w=400",
-        title: "TOTÊME",
-        sub: "Signature Wool And Cashmere-",
-        rate: "$878 (18% OFF)  - $1296",
-        st: "Compare 6 stores"
-    },
-    
-    ]
-
+  & span {
+    font-size: 12px;
+    color: gray;
+  }
+  & h6 {
+    font-size: 13px;
+    font-weight: bold;
+    margin: 0;
+  }
+`;
+const HeartImg = styled.img``;
 function NextArrow(props) {
   const { className, style, onClick } = props;
   return (
@@ -107,8 +100,20 @@ function PrevArrow(props) {
     />
   );
 }
+ 
 
 const NewDealSlider = () => {
+  const [data,setData] = React.useState([])
+  useEffect(()=>{
+    getData()
+   },[])
+   const getData=async()=>{
+    let res = await fetch(`http://localhost:3000/newdeal`)
+    res = await res.json()
+    setData(res)
+   }
+
+
   const settings = {
     infinite: true,
     speed: 1000,
@@ -121,20 +126,73 @@ const NewDealSlider = () => {
     <div style={{ width: "72%", margin: "auto", marginTop: "50px" }}>
       <div style={{width:"20%",margin:"auto"}}><h1 style={{fontSize:"25px",fontWeight:"bold"}}>New To Sale</h1></div>
       <Slider {...settings}>
-        {newdeal.map((item)=>(
-            <div className="card4">
-            <img src={item.src}   alt=""
-             
-              width="100%"
-            
-            />
-            <div>
-              <h2 style={{fontSize:"15px",marginTop:"10px",fontWeight:"bold"}}>{item.title}</h2>
-              <h4 style={{fontSize:"15px",marginTop:"10px",fontSize:"13px",color:"#8E8E8E"}}>{item.sub}</h4>
-              <h3 style={{fontSize:"15px",marginTop:"10px",color:"red"}}>{item.rate}</h3>
-              <h3 style={{fontSize:"15px",marginTop:"10px",color:"#8E8E8E"}}>{item.st}</h3>
-            </div>
-          </div>
+        {data?.map((e)=>(
+          <Container
+>
+    <HeartDIv>
+      <HeartImg
+        src="https://cdn.modesens.com/static/img/20210601heart.svg"
+        alt=""
+      />
+    </HeartDIv>
+    <div
+      style={{
+        display: "flex",
+        border: "none",
+        justifyContent: "center",
+        padding: "20px 8px",
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          height: "240px",
+          overflow: "hidden",
+        }}
+      >
+        <SlideItem src={e.src} />
+      </div>
+    </div>
+    <div style={{ display: "flex", justifyContent: "center" }}>
+      <Button>View Details</Button>
+    </div>
+    <TextDiv>
+      <h5
+        style={{
+          color: "black",
+          fontSize: "17px",
+          textAlign: "center",
+          fontWeight: "bold",
+          marginTop:"17px"
+        }}
+      >
+        {e.title}
+      </h5>
+      <p
+        style={{
+          fontSize: "15px",
+          textAlign: "center",
+          color: "gray",
+          marginTop:"5px",
+          lineHeight:"normal"
+        }}
+      >
+        {e.sub}
+      </p>
+      <h6
+        style={{
+          fontSize: "15px",
+          color: "black",
+          marginTop:"5px"
+        }}
+      >
+        {e.rate}
+      </h6>
+      <span style={{ color: "gray",marginTop:"5px" }}>
+        {Math.floor(Math.random() * (20 - 5 + 1)) + 5}-store
+      </span>
+    </TextDiv>
+</Container>
         ))}
        
        
@@ -146,3 +204,5 @@ const NewDealSlider = () => {
 };
 
 export default NewDealSlider;
+
+
