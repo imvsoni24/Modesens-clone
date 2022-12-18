@@ -56,7 +56,7 @@
 }
 .adjust {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   margin-left: 80px;
   margin-top: 19px;
 }

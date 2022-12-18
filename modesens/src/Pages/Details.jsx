@@ -1,7 +1,8 @@
 import React from 'react'
-import { useParams,Link } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
   
 const Details = () => {
+    const navigate=useNavigate()
    const [product,setProduct] = React.useState({})
    const { id } = useParams();
     React.useEffect(() => {
@@ -9,10 +10,16 @@ const Details = () => {
           .then((res) => res.json())
           .then((res) => setProduct(res))
       }, [id]);
-      const { src,title,sub,rate,st,type } = product;
+      const { src,title,sub,rate,st} = product;
+      let arr = JSON.parse(localStorage.getItem("movie-list")) || [];
+      const local=()=>{
+        arr.push(product);
+        localStorage.setItem("movie-list", JSON.stringify(arr));
+        navigate("/cart")
+      }
   return (
     <div>
-        <h1 style={{marginTop:"50px",marginLeft:"150px",fontWeight:"bold"}}>MODESENS / DESIGNERS / WOMEN / BEAUTY</h1>
+        <h1 style={{marginTop:"50px",marginLeft:"150px",fontWeight:"bold"}}>MODESENS / DESIGNERS / WOMEN / <span style={{cursor:"pointer"}} onClick={()=>{navigate("/beauty")}}>BEAUTY</span></h1>
         <div style={{width:"80%",display:"flex",margin:"auto",marginTop:"20px"}}>
             <div style={{width:"50%",height:"400px",marginRight:"35px"}}>
                 <img style={{width:"200px",height:"200px",marginLeft:"180px"}} src={src} alt="" />
@@ -34,13 +41,13 @@ const Details = () => {
             <div style={{width:"50%",height:"400px"}}>
                <h1 style={{fontWeight:"500",fontSize:"23px"}}>{title}</h1>
                <p style={{marginTop:"15px",color:"#8E8E8E"}}>{sub}</p>
-               <h1 style={{marginTop:"15px",fontWeight:"500",fontSize:"20px"}}>{rate}</h1>
+               <h1 style={{marginTop:"15px",fontWeight:"500",fontSize:"20px"}}>${rate}-${rate*2}</h1>
                <h1 style={{marginTop:"10px",fontWeight:"500"}}>Earn up to 55 points when you buy.</h1>
                <button style={{marginTop:"10px",color:"white",padding:"8px 29px",backgroundColor:"black"}}>SHOP FROM {st} STORES</button><button style={{marginTop:"10px",marginLeft:"10px",color:"black",padding:"8px 69px",backgroundColor:"white",border:"1px solid"}}>SET ALERT</button>
                <p style={{marginTop:"20px",fontWeight:"500"}}>Product Reviews</p>
-               <p  style={{marginTop:"100px",fontWeight:"500"}}>Estimated Price: {rate} </p>
+               <p  style={{marginTop:"100px",fontWeight:"500"}}>Estimated Price: ${rate}-${rate*2} </p>
                <button  style={{marginTop:"18px",color:"black",border:"1px solid",padding:"8px 77px",backgroundColor:"white"}}>Select Size</button>
-               <button style={{marginTop:"10px",marginLeft:"8px",color:"white",padding:"8px 63px",backgroundColor:"black",border:"1px solid"}}>ADD TO BAG</button>
+               <button onClick={local} style={{marginTop:"10px",marginLeft:"8px",color:"white",padding:"8px 63px",backgroundColor:"black",border:"1px solid"}}>ADD TO BAG</button>
 
             </div>
         </div>

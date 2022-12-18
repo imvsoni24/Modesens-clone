@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Slider from "react-slick";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
@@ -186,7 +186,7 @@ const NewDealSlider = () => {
           marginTop:"5px"
         }}
       >
-        {e.rate}
+        ${e.rate}-${e.rate*2}
       </h6>
       <span style={{ color: "gray",marginTop:"5px" }}>
         {Math.floor(Math.random() * (20 - 5 + 1)) + 5}-store

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import "./Navbar.css";
 import Modal from 'react-modal';
 import { CloseIcon } from '@chakra-ui/icons';
-import {Checkbox} from "@chakra-ui/react"
+import {Checkbox,useToast} from "@chakra-ui/react"
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword,signOut } from "firebase/auth";
 import { auth } from "../Firebase";
 
@@ -24,6 +24,8 @@ const customStyles = {
 };
 
 const Navbar = () => {
+  
+  const toast = useToast()
     const navigate=useNavigate()
     const user = auth.currentUser;
     const [values,setValues] = useState({
@@ -37,8 +39,15 @@ const Navbar = () => {
       setDisable(true)
       createUserWithEmailAndPassword(auth,values.email,values.pass).then((res)=>{
         setDisable(false)
-        const userD = res.user
         console.log(res)
+        toast({
+          title: 'Congratualtions!',
+          description: "Your Account has been created successfully.",
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+          
+        })
         navigate("/")
         closeModal()
       }).catch((err)=>{
@@ -60,6 +69,14 @@ signOut(auth).then(() => {
           setDisable(false)
           const userD = res.user.email
          console.log(userD.email)
+         toast({
+          title: 'Login Success',
+          description: "Welcome Back!",
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+          
+        })
           navigate("/")
           closeModal2()
         }).catch((err)=>{
@@ -69,22 +86,18 @@ signOut(auth).then(() => {
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [modalIsOpen2, setIsOpen2] = React.useState(false);
-  const [load,setLoad] = React.useState(false)
   function openModal() {
     setIsOpen(true);
   }
   function openModal2() {
     setIsOpen2(true);
   }
-  
-    useEffect(()=>{
-        openModal()
-      },[]) 
-    
-  
-  
 
+  useEffect(()=>{
+    openModal()
+  },[])
 
+  
   function closeModal() {
     setIsOpen(false);
   }
@@ -103,12 +116,8 @@ signOut(auth).then(() => {
   }
     return (
         <div  id="Navbar">
-            <div onClick={()=>navigate("/")} id="logo">
-
-                <img
-                    src="https://i.ibb.co/svxTCp9/download.jpg"
-                    alt=""
-                />
+            <div style={{fontSize:"24px"}} onClick={()=>navigate("/")} id="logo">
+            ＢｅＣｈａｒｍｅｄ
             </div>
             <div className="categories">
                 <div className="women" onClick={()=>navigate("/")}> WOMEN</div>
@@ -208,11 +217,12 @@ signOut(auth).then(() => {
                 <div style={{ color: "red" }} className="designer"> GIFT SIDE</div>
             </div>
             <div className="right_side ">
-                <div className="loginimage" onClick={()=>navigate("/cart")}>
+                <div style={{display:"flex",marginTop:"2px"}} className="loginimage" onClick={()=>navigate("/cart")}>
+                  
                     <img
                         src="https://cdn.modesens.com/static/img/20200612shopping_bag2.svg"
                         alt=""
-                    />
+                    /><br/>
                 </div>
               <div onClick={openModal}  id="login" >
               {user? user.email:  <img  className="loginimage"
@@ -238,7 +248,7 @@ signOut(auth).then(() => {
            <input required onChange={event=>setValues(prev=>({...prev,pass:event.target.value}))}   style={{marginTop:"20px",padding:"7px 40px",border: "1px solid"}} type="password" placeholder="Password" />
             <Checkbox  style={{marginTop:"20px",fontSize:"5px"}}>Subscribe to personalized sale updates and offers</Checkbox>
             
-            <input disabled={disable}  style={{marginTop:"20px",padding:"7px 100px",border: "1px solid",color:"white",backgroundColor:"black"}} type="Submit" name="" id="" value="SIGN UP" />
+            <input disabled={disable}  style={{cursor:"pointer",marginTop:"20px",padding:"7px 100px",border: "1px solid",color:"white",backgroundColor:"black"}} type="Submit" name="" id="" value="SIGN UP" />
            </form>
             <p  style={{marginTop:"20px",marginBottom:"20px",textAlign:"center"}}>or</p>
             <div style={{display:"flex",justifyContent:"center"}}>
@@ -272,7 +282,7 @@ signOut(auth).then(() => {
             <p style={{marginTop:"20px",textAlign:"center"}}>Unleash your shopping power.</p><br />
             <p  style={{marginTop:"0px",textAlign:"center"}}>Check ModeSens before you buy.</p>
            <input required onChange={event=>setValues(prev=>({...prev,email:event.target.value}))}  style={{marginTop:"40px",padding:"7px 40px",border: "1px solid"}} type="text" placeholder="Email" /><br />
-           <input required onChange={event=>setValues(prev=>({...prev,pass:event.target.value}))}  style={{marginTop:"20px",padding:"7px 40px",border: "1px solid"}} type="text" placeholder="Password" />
+           <input required onChange={event=>setValues(prev=>({...prev,pass:event.target.value}))}  style={{marginTop:"20px",padding:"7px 40px",border: "1px solid"}} type="password" placeholder="Password" />
             <p  style={{marginTop:"20px",fontSize:"13px",textAlign:"center"}}>Forgot Password?</p>
             <button disabled={disable} onClick={handleLogin}   style={{marginTop:"20px",padding:"7px 100px",border: "1px solid",color:"white",backgroundColor:"black"}}>LOG IN</button>
             <p  style={{marginTop:"20px",marginBottom:"20px",textAlign:"center"}}>or</p>
@@ -293,7 +303,6 @@ signOut(auth).then(() => {
         </Modal>
                 <div id="loginhide">
                     <h5>Earn Points</h5>
-                    <h5>Signup to unlock all benefits</h5>
                     <hr></hr>
                     <h5>My Likes</h5>
                     <h5>My Alerts</h5>

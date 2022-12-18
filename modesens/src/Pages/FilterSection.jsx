@@ -33,7 +33,7 @@ export const FilterDiv = () => {
             <option value="3">Pre-Owned</option>
           </select>
           <select>
-            <option value="0">Category : Beauty</option>
+            <option value="0">Category</option>
             <option value="1">All</option>
             <option value="2">Clothing</option>
             <option value="3">Shoes</option>

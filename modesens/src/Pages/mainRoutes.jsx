@@ -20,17 +20,17 @@ const MainRoutes = () => {
         <Routes>
             <Route  path="/beauty/:id" element={<Details />}/>
             
-            <Route  path="/payment" element={<Payment/>}></Route>
-            <Route path="/" element={<Womens/>}></Route>
-            <Route path="/mens" element={<Mens/>}></Route>
-            <Route path='/beauty' element={<Beauty/>}></Route>
-            <Route path="/kids" element={<Kids/>}></Route>
-            <Route path='/home' element={<Home/>}></Route>
-            <Route path='/community' element={<Community/>}></Route>
-            <Route path='/whymodesens' element={<WhyMod/>}></Route>
-            <Route path='/sale' element={<Sale/>}></Route>
-            <Route path="/gift" element={ <Gift/>}></Route>
-            <Route path='/cart' element={<Cart/>}></Route>
+            <Route  path="/payment" element={<Payment/>}/>
+            <Route path="/" element={<Womens/>}/>
+            <Route path="/mens" element={<Mens/>}/>
+            <Route path='/beauty' element={<Beauty/>}/>
+            <Route path="/kids" element={<Kids/>}/>
+            <Route path='/home' element={<Home/>}/>
+            <Route path='/community' element={<Community/>}/>
+            <Route path='/whymodesens' element={<WhyMod/>}/>
+            <Route path='/sale' element={<Sale/>}/>
+            <Route path="/gift" element={ <Gift/>}/>
+            <Route path='/cart' element={<Cart/>}/>
         </Routes>
     </div>
   )

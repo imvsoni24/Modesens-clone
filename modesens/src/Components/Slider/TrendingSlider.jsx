@@ -1,6 +1,6 @@
 import React from "react";
 import Slider from "react-slick";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
@@ -125,9 +125,9 @@ const TrendingSlider = () => {
   return (
     <div style={{ width: "72%", margin: "auto", marginTop: "50px" }}>
       <div style={{width:"20%",margin:"auto"}}><h1 style={{fontSize:"25px",fontWeight:"bold"}}>Trending Now</h1></div>
-      <Slider {...settings}>
+      <Slider  {...settings}>
         {data.map((e)=>(
-               <Container
+               <Container key={e.id}
                >
                    <HeartDIv>
                      <HeartImg
@@ -186,7 +186,7 @@ const TrendingSlider = () => {
                          marginTop:"5px"
                        }}
                      >
-                       {e.rate}
+                       ${e.rate}-${e.rate*2}
                      </h6>
                      <span style={{ color: "gray",marginTop:"5px" }}>
                        {Math.floor(Math.random() * (20 - 5 + 1)) + 5}-store

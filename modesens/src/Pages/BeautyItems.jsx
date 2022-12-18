@@ -98,8 +98,6 @@ const ProductItem = () => {
   const [grid3, setgrid3] = useState(false);
   useEffect(() => {
     getData();
-    // console.log("data recieved")
-    // console.log(page)
   }, [page, grid2]);
   const getData=async()=>{
     let res = await fetch(`http://localhost:3000/beauty?_page=${page}`)
@@ -254,7 +252,7 @@ const ProductItem = () => {
                       marginTop:"5px"
                     }}
                   >
-                    {e.rate}
+                    ${e.rate}-${e.rate*2}
                   </h6>
                   <span style={{ color: "gray",marginTop:"5px" }}>
                     {e.st}-store

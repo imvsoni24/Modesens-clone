@@ -5,12 +5,18 @@ import {Accordion,AccordionItem,AccordionButton,Box,AccordionIcon,AccordionPanel
 const Payment = () => {
   const navigate=useNavigate()
   const toast = useToast()
+  let arr = JSON.parse(localStorage.getItem("movie-list")) || [];
+   let sum =0;
+   arr.forEach((el)=>{
+    sum=sum+Number(el.rate)
+   })
+   let total = sum+403+15
   return (
     <div>
       <h1 style={{textAlign:"center",fontSize:"30px",marginTop:"20px"}}>MODESENS CONCIERGE</h1>
         <p style={{textAlign:"center",fontWeight:"bold",marginTop:"15px"}}>Let ModeSens determine which store fulfill your request to get the best price for the product you want</p><br />
         <p style={{textAlign:"center",fontWeight:"bold"}}>- enjoy a worry-free experience with no additional cost to you.</p>
-        <h1 style={{color:"#8E8E8E",marginLeft:"230px",marginTop:"45px"}}>Back To Bag</h1>
+        <h1 onClick={()=>{navigate("/cart")}} style={{cursor:"pointer",color:"#8E8E8E",marginLeft:"230px",marginTop:"45px"}}>Back To Bag</h1>
         <div style={{display:"flex",justifyContent:"space-between",width:"70%",fontWeight:"bold",margin:"auto",marginTop:"20px",}}><h1>YOUR SHIPPING ADDRESS</h1>
         <h1 style={{marginRight:"233px"}}>SUMMARY</h1></div>
         <div style={{display:"flex",width:"70%",margin:"auto",marginTop:"10px",}}>
@@ -48,13 +54,13 @@ const Payment = () => {
         </div>
         <div style={{width:"30%",height:"auto",fontWeight:"500",padding:"5px",boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px"}}>
         <div style={{display:"flex",justifyContent:"space-between"}}><h1>Currency</h1><h1>USD</h1></div>
-                <div style={{display:"flex",justifyContent:"space-between",marginTop:"11px"}}><h1>1 Items</h1><h1>$1,151.00</h1></div>
+                <div style={{display:"flex",justifyContent:"space-between",marginTop:"11px"}}><h1>{arr.length} Items</h1><h1>${sum}</h1></div>
                 <div style={{display:"flex",justifyContent:"space-between",marginTop:"11px"}}><h1>Store Shipping Fee</h1><h1>$15.00</h1></div>
                 <div style={{display:"flex",justifyContent:"space-between",marginTop:"11px"}}><h1>Tax</h1><h1>$0.00</h1></div>
                 <div style={{display:"flex",justifyContent:"space-between",marginTop:"11px",marginBottom:"5px"}}><h1>Duty</h1><h1>$403.00</h1></div>
                 
                 <hr />
-                <div style={{display:"flex",justifyContent:"space-between",marginTop:"11px",marginBottom:"15px"}}><h1>ESTIMATED TOTAL</h1><h1>$1,569.00</h1></div>
+                <div style={{display:"flex",justifyContent:"space-between",marginTop:"11px",marginBottom:"15px"}}><h1>ESTIMATED TOTAL</h1><h1>${total}</h1></div>
 
                 <Accordion allowMultiple>
   <AccordionItem>
@@ -125,7 +131,7 @@ const Payment = () => {
           isClosable: true,
           
         })
-      navigate("/womens")
+      navigate("/")
       }
       } style={{width:"100%",margin:"auto",border:"1px solid",backgroundColor:"black",color:"white",fontWeight:"bold",marginTop:"9px",padding:"5px 10px"}}>PLACE ORDER</button><br /><br />
                 <p style={{color:"black",marginTop:"25px"}}>By placing order you agree to ModeSens</p><br />

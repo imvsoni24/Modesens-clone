@@ -1,21 +1,7 @@
-import { React, useState } from "react";
+import { React} from "react";
 import "./footer.css"
 
 export const Footer = () => {
-    const [formData, setformData] = useState({
-        email: "",
-        gender: "",
-    })
-
-    const handleChange = (e) => {
-        setformData({
-            ...formData({ ...formData, [e.target.id]: e.target.value, })
-        })
-    }
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(formData)
-    }
     return (
         <div>
             <div className="mainbox">
@@ -53,18 +39,12 @@ export const Footer = () => {
                 </div>
                 <div className="News">
                     <h3 style={{marginBottom:"20px",marginTop:"-13px"}}>NEWSLETTER SIGN UP</h3>
-                    <form onSubmit={handleSubmit}>
-                        <input onChange={handleChange} className="email" type="text" name="email" placeholder="Email Address" id="email" />
+                    <form >
+                        <input className="email" type="text" name="email" placeholder="Email Address" id="email" />
                         <div>
-                            <input onChange={(e) => {
-                                const setGender = e.target.value;
-                                setformData({ ...formData, gender: setGender })
-                            }} type="checkbox" name="Women's" className="Women's" value={"Women's"} /> &nbsp;
+                            <input  type="checkbox" name="Women's" className="Women's" value={"Women's"} /> &nbsp;
                             Women's  &nbsp;
-                            <input onChange={(e) => {
-                                const setGender = e.target.value;
-                                setformData({ ...formData, gender: setGender })
-                            }} type="checkbox" name="Men's" className="Men's" value={"Men's"} /> &nbsp;
+                            <input type="checkbox" name="Men's" className="Men's" value={"Men's"} /> &nbsp;
                             Men's
                         </div>
                         <input className="inputSubmit" type="submit" value="Submit" />
