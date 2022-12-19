@@ -6,7 +6,7 @@ const Details = () => {
    const [product,setProduct] = React.useState({})
    const { id } = useParams();
     React.useEffect(() => {
-        fetch(`http://localhost:3000/beauty/${id}`)
+        fetch(`https://render-1xu5.onrender.com/beauty/${id}`)
           .then((res) => res.json())
           .then((res) => setProduct(res))
       }, [id]);

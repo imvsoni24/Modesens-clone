@@ -51,7 +51,9 @@ const Navbar = () => {
         navigate("/")
         closeModal()
       }).catch((err)=>{
+        
         setDisable(false)
+        
       })
     }
     const handleLogout = ()=>{

@@ -108,7 +108,7 @@ const TrendingSlider = () => {
     getData()
    },[])
    const getData=async()=>{
-    let res = await fetch(`http://localhost:3000/trending`)
+    let res = await fetch(`https://render-1xu5.onrender.com/trending`)
     res = await res.json()
     setData(res)
    }

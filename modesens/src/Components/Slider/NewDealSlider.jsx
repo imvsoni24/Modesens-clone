@@ -108,7 +108,7 @@ const NewDealSlider = () => {
     getData()
    },[])
    const getData=async()=>{
-    let res = await fetch(`http://localhost:3000/newdeal`)
+    let res = await fetch(`https://render-1xu5.onrender.com/newdeal`)
     res = await res.json()
     setData(res)
    }

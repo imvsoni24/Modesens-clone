@@ -100,7 +100,7 @@ const ProductItem = () => {
     getData();
   }, [page, grid2]);
   const getData=async()=>{
-    let res = await fetch(`http://localhost:3000/beauty?_page=${page}`)
+    let res = await fetch(`https://render-1xu5.onrender.com/beauty?_page=${page}`)
     res = await res.json()
     setData(res)
    }
