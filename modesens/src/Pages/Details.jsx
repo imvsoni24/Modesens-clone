@@ -1,8 +1,13 @@
 import React from 'react'
-import { useParams,useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { auth } from "../Firebase";
+import {useToast } from "@chakra-ui/react";
+import { useNavigate } from 'react-router-dom';
   
 const Details = () => {
     const navigate=useNavigate()
+    const toast = useToast();
+    const user = auth.currentUser;
    const [product,setProduct] = React.useState({})
    const { id } = useParams();
     React.useEffect(() => {
@@ -16,6 +21,14 @@ const Details = () => {
         arr.push(product);
         localStorage.setItem("movie-list", JSON.stringify(arr));
         navigate("/cart")
+      }
+      const handleToast = ()=>{
+        toast({
+          title: "Seems you have not logged in yet",
+          status: "warning",
+          duration: 7000,
+          isClosable: true,
+        });
       }
   return (
     <div>
@@ -32,12 +45,6 @@ const Details = () => {
 
 
 
-
-
-
-
-
-
             <div style={{width:"50%",height:"400px"}}>
                <h1 style={{fontWeight:"500",fontSize:"23px"}}>{title}</h1>
                <p style={{marginTop:"15px",color:"#8E8E8E"}}>{sub}</p>
@@ -47,7 +54,7 @@ const Details = () => {
                <p style={{marginTop:"20px",fontWeight:"500"}}>Product Reviews</p>
                <p  style={{marginTop:"100px",fontWeight:"500"}}>Estimated Price: ${rate}-${rate*2} </p>
                <button  style={{marginTop:"18px",color:"black",border:"1px solid",padding:"8px 77px",backgroundColor:"white"}}>Select Size</button>
-               <button onClick={local} style={{marginTop:"10px",marginLeft:"8px",color:"white",padding:"8px 63px",backgroundColor:"black",border:"1px solid"}}>ADD TO BAG</button>
+              {user?<button onClick={local} style={{marginTop:"10px",marginLeft:"8px",color:"white",padding:"8px 63px",backgroundColor:"black",border:"1px solid"}}>ADD TO BAG</button> :<button onClick={handleToast} style={{marginTop:"10px",marginLeft:"8px",color:"white",padding:"8px 63px",backgroundColor:"black",border:"1px solid"}}>ADD TO BAG</button>}
 
             </div>
         </div>
